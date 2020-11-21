@@ -1,4 +1,5 @@
 import numpy as np
+import seaborn as sns
 
 n_rows = 8
 n_columns = 50
@@ -64,4 +65,5 @@ for line in lines[73:81]:
     line = [float(i) for i in line]
     strain1.append(line)
 
-print(len(strain1))
+print(strain1)
+ax = sns.heatmap(strain1[0:8], cmap="YlGnBu")
