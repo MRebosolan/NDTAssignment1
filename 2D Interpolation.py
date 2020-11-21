@@ -64,4 +64,4 @@ for line in lines[73:81]:
     line = [float(i) for i in line]
     strain1.append(line)
 
-print(strain1)
+print(len(strain1))
