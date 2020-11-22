@@ -302,14 +302,38 @@ strain54 = np.delete(strain54, 0, 0)
 
 strain5 = np.hstack((strain51, strain52, strain53, strain54))
 
+e = ip.interp2d(x_coord, y_coord, strain1, kind="cubic")
+x2 = np.arange(x_coord[0], x_coord[-1], 1)
+y2 = np.arange(y_coord[0], y_coord[-1], 1)
+strain1func = e(x2, y2)
+
 f = ip.interp2d(x_coord, y_coord, strain2, kind="cubic")
 x2 = np.arange(x_coord[0], x_coord[-1], 1)
 y2 = np.arange(y_coord[0], y_coord[-1], 1)
-pippo = f(x2, y2)
-print(y_coord)
+strain2func = f(x2, y2)
 
-im = imshow(pippo, cmap=cm.YlGnBu)  # drawing the function
-colorbar(im) # adding the colorbar on the right
-title('image 2 strain')
+g = ip.interp2d(x_coord, y_coord, strain3, kind="cubic")
+x2 = np.arange(x_coord[0], x_coord[-1], 1)
+y2 = np.arange(y_coord[0], y_coord[-1], 1)
+strain3func = g(x2, y2)
 
-show()
+h = ip.interp2d(x_coord, y_coord, strain4, kind="cubic")
+x2 = np.arange(x_coord[0], x_coord[-1], 1)
+y2 = np.arange(y_coord[0], y_coord[-1], 1)
+strain4func = h(x2, y2)
+
+i = ip.interp2d(x_coord, y_coord, strain5, kind="cubic")
+x2 = np.arange(x_coord[0], x_coord[-1], 1)
+y2 = np.arange(y_coord[0], y_coord[-1], 1)
+strain5func = i(x2, y2)
+
+strain_functions = [strain1func, strain2func, strain3func, strain4func, strain5func]
+
+
+for n, function in enumerate(strain_functions):
+    im = imshow(function, cmap=cm.YlGnBu)  # drawing the function
+    colorbar(im) # adding the colorbar on the right
+    title(f'image {n+1} x strain')
+    show()
+
+
