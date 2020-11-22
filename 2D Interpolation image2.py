@@ -1,5 +1,8 @@
 import numpy as np
 import seaborn as sns
+import scipy.interpolate as ip
+import matplotlib.pyplot as plt
+from pylab import meshgrid, cm, imshow, contour, clabel, colorbar, axis, title, show
 
 n_rows = 8
 n_columns = 50
@@ -12,17 +15,20 @@ pi00 = open("pi_00.txt")
 for n, line in enumerate(pi00):
     line = line.strip(" ").split("	   ")
     line = [float(i) for i in line]
-    for j, elem in enumerate(line):
-        x_coord.append(elem)
-
+    for j, elem in enumerate(line[:-1]):
+        y_coord.append(elem)
+        break
 
 pj00 = open("pj_00.txt")
 for m, line1 in enumerate(pj00):
     line1 = line1.strip(" ").split("	   ")
     line1 = [float(i) for i in line1]
-    for k, elem1 in enumerate(line1):
-        y_coord.append(elem1)
+    for k, elem1 in enumerate(line1[:-1]):
+        x_coord.append(elem1)
+    break
 
+x_coord = np.array(x_coord)
+y_coord = np.array(y_coord)
 
 test_strain_x = open("test_strain_x_all.txt")
 lines = []
@@ -296,9 +302,14 @@ strain54 = np.delete(strain54, 0, 0)
 
 strain5 = np.hstack((strain51, strain52, strain53, strain54))
 
+f = ip.interp2d(x_coord, y_coord, strain2, kind="cubic")
+x2 = np.arange(x_coord[0], x_coord[-1], 1)
+y2 = np.arange(y_coord[0], y_coord[-1], 1)
+pippo = f(x2, y2)
+print(y_coord)
 
+im = imshow(pippo, cmap=cm.YlGnBu)  # drawing the function
+colorbar(im) # adding the colorbar on the right
+title('image 2 strain')
 
-
-
-
-#ax = sns.heatmap(strain1[0:8], cmap="YlGnBu")
+show()
